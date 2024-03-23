@@ -9,12 +9,41 @@
 getItemsInOrderById(CustName,OrderId, Items):-
     customer(Id, CustName),
     order(Id, OrderId, Items).
+%4
+
+count_list([],0).
+
+count_list([H|T],Sum):-
+    count_list(T,NewSum),
+    Sum is 1 + NewSum.
+
+getNumOfItems(Name,OrderID,Count):-
+    customer(ID,Name),
+    order(ID,OrderID,L),
+    count_list(L,Count).
+%5
+getPrice([],0).
+
+getPrice([H|T],TotalPrice):-
+    item(H,CompName,Price),
+    getPrice(T,NewTotal),
+    TotalPrice is Price + NewTotal.
+
+calcPriceOfOrder(Name,OrderID,TotalPrice):-
+    customer(ID,Name),
+    order(ID,OrderID,L),
+    getPrice(L,TotalPrice).
 
 %6
 isBoycott(Name):-
     item(Name,Company, _) -> boycott_company(Company, _);
     boycott_company(Name, _ ).
 
+%7
+
+WhyToBoycott(Product,Justification):-
+    item(Product,CompName,Price),
+    boycott_company(CompName,Justification).
 
 % 9
 replaceBoycottItemsFromAnOrder(UserName, OrderID, NewList) :-
