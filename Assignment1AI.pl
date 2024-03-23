@@ -4,6 +4,27 @@
     item/3,
     alternative/2,
     boycott_company/2.
+    
+%1
+list_orders(UserName, L) :-
+    customer(UserID, UserName),
+    get_orders(UserID, 1, L).
+get_orders(UserID, OrderID, [Order|RestOrders]) :-
+    order(UserID, OrderID, Items),
+    Order = order(UserID, OrderID, Items),
+    NextOrder is OrderID + 1,
+    get_orders(UserID, NextOrder, RestOrders).
+get_orders(_, _, []).
+
+%2
+countOrdersOfCustomer(UserName, TotalCount):-
+    list_orders(UserName, Orders),
+    countOrders(Orders, TotalCount).
+countOrders([], 0).
+countOrders([_|T], Count) :-
+    countOrders(T, RestCount),
+    Count is RestCount + 1.
+
 
 %3
 getItemsInOrderById(CustName,OrderId, Items):-
