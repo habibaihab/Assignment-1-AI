@@ -66,6 +66,29 @@ WhyToBoycott(Product,Justification):-
     item(Product,CompName,Price),
     boycott_company(CompName,Justification).
 
+%8
+
+removeBoycottItemsFromAnOrder(CustomerName, OrderId, NewList):-
+    customer(CustomerId, CustomerName),
+    order(CustomerId,OrderId,Orders),
+    editList(Orders, NewList).
+
+
+editList([],[]).
+
+editList([Item|T],NewList):-
+    item(Item, _, _),
+    boycott(Item),
+    !,
+    editList(T,NewList).
+
+editList([Item|T], [Item|NewT]):-
+    \+ boycott(Item),
+    editList(T, NewT).
+
+boycott(Item) :-
+    alternative(Item, _).
+
 % 9
 replaceBoycottItemsFromAnOrder(UserName, OrderID, NewList) :-
     customer(UserID, UserName),
