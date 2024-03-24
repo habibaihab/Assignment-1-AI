@@ -4,7 +4,7 @@
     item/3,
     alternative/2,
     boycott_company/2.
-    
+
 %1
 list_orders(UserName, L) :-
     customer(UserID, UserName),
@@ -62,7 +62,7 @@ isBoycott(Name):-
 
 %7
 
-WhyToBoycott(Product,Justification):-
+whyToBoycott(Product,Justification):-
     item(Product,CompName,Price),
     boycott_company(CompName,Justification).
 
